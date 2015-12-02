@@ -1,0 +1,27 @@
+{
+  "name": "metalsmith-yearly-pagination",
+  "version": "1.0.0",
+  "description": "A plugin that uses metalsmith-collections to create a collection paginated by year",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "homepage": "https://github.com/phillipj/metalsmith-yearly-pagination",
+  "issues": "https://github.com/phillipj/metalsmith-yearly-pagination/issues",
+  "repository": "https://github.com/phillipj/metalsmith-yearly-pagination.git",
+  "keywords": [
+    "metalsmith",
+    "plugin",
+    "paginate",
+    "year"
+  ],
+  "author": "Phillip Johnsen <johphi@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^2.3.4",
+    "should": "^7.1.1"
+  },
+  "dependencies": {
+    "lodash": "^3.10.1"
+  }
+}
