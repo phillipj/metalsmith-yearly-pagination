@@ -29,7 +29,6 @@ function paginate (filePath, collection, fileName, files, perPage) {
     }
 
     origFile.pagination = {
-        prev: clone,
         year: latestYear,
         posts: asPaginatedItems(postsByYear[latestYear], perPage)
     };
