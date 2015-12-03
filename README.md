@@ -88,7 +88,7 @@ You can then use this info in your template. Here's an example using Handlebars 
         {{#if this.pagination.next}}
             <a href="{{this.pagination.next.path}}">&lt; Prev</a>
         {{/if}}
-    
+
         {{#if this.pagination.prev}}
             <a href="{{this.pagination.prev.path}}">Next &gt;</a>
         {{/if}}
@@ -96,3 +96,11 @@ You can then use this info in your template. Here's an example using Handlebars 
 {{/if}}
 ```
 > Note: This example also uses the [metalsmith-permalinks](https://github.com/segmentio/metalsmith-permalinks) plug-in
+
+# Contributing
+
+This is an **OPEN Open Source Project**. This means that:
+
+> Individuals making significant and valuable contributions are given commit-access to the project to contribute as they see fit. This project is more like an open wiki than a standard guarded open source project.
+
+See the [contribution guide](CONTRIBUTING.md) for more details.
