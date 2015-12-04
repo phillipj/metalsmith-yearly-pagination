@@ -60,28 +60,28 @@ The pagination info won't be of any use to you if you don't render it. Each (vir
 You can then use this info in your template.
 
 ```handlebars
-<h1>Posts from {{this.pagination.year}}</h1>
+<h1>Posts from {{pagination.year}}</h1>
 {{#each collections.blog.posts}}
   <li class="post">
     <h2 class="entry-title">
-      <a href="{{ this.path }}" rel="bookmark">{{ this.title }}</a>
+      <a href="{{ path }}" rel="bookmark">{{ title }}</a>
     </h2>
     <article class="entry-summary">
-      {{{ this.excerpt }}}
+      {{ excerpt }}
     </article>
     <footer>
-      <a href="{{ this.path }}" class="button">Read More</a>
+      <a href="{{ path }}" class="button">Read More</a>
     </footer>
   </li>
 {{/each}}
 
-{{#if this.pagination}}
+{{#if pagination}}
   <nav class="pagination">
-    {{#if this.pagination.next}}
-      <a href="{{this.pagination.next.path}}">&lt; Prev</a>
+    {{#if pagination.next}}
+      <a href="{{pagination.next.path}}">&lt; Prev</a>
     {{/if}}
-    {{#if this.pagination.prev}}
-      <a href="{{this.pagination.prev.path}}">Next &gt;</a>
+    {{#if pagination.prev}}
+      <a href="{{pagination.prev.path}}">Next &gt;</a>
     {{/if}}
   </nav>
 {{/if}}
@@ -127,15 +127,15 @@ Metalsmith(__dirname)
 {{#each collections.blog.posts}}
   <li class="post">
     <h2 class="entry-title">
-      <a href="{{ this.post.path }}" rel="bookmark">{{ this.post.title }}</a>
+      <a href="{{ post.path }}" rel="bookmark">{{ post.title }}</a>
     </h2>
-    {{#if this.displayExcerpt}}
+    {{#if displayExcerpt}}
       <article class="entry-summary">
-        {{{ this.post.excerpt }}}
+        {{ post.excerpt }}
       </article>
     {{/if}}
     <footer>
-      <a href="{{ this.post.path }}" class="button">Read More</a>
+      <a href="{{ post.path }}" class="button">Read More</a>
     </footer>
   </li>
 {{/each}}
