@@ -1,5 +1,7 @@
 # metalsmith-yearly-pagination
 
+[![Build Status](https://api.travis-ci.org/phillipj/metalsmith-yearly-pagination.png)](http://travis-ci.org/phillipj/metalsmith-yearly-pagination)
+
 This plug-in makes [metalsmith-collections](https://github.com/segmentio/metalsmith-collections) "paginatable". It does so by creating virtual files which contain the information about the collection as well as the previous and next page.
 
 You **must** use this in conjunction with [metalsmith-collections](https://github.com/segmentio/metalsmith-collections)!
