@@ -1,6 +1,6 @@
 {
   "name": "metalsmith-yearly-pagination",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A plugin that uses metalsmith-collections to create a collection paginated by year",
   "main": "index.js",
   "scripts": {
