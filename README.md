@@ -42,8 +42,8 @@ Metalsmith(__dirname)
 ## Options
 | name | description |
 |:-----|:------------|
-|perPage|The number of items to be displayed per page|
-|path|The path were the files will be outputted to. Appended with "-$NUM.html" where $NUM is the page number. So "blog/page" would for example result in the second page being rendered as `blog/page-2.html`. You can also use the placeholder ':collection' to insert the name of the collection.|
+|iteratee|Function called for each post (optional) |
+|path|The path were the files will be outputted to. Appended with "-$NUM.html" where $NUM is the page number. So "blog/page" would for example result in the second page being rendered as `blog/page-2.html`. You can also use the placeholder ':collection' to insert the name of the collection. (optional)|
 
 
 ## Templates
@@ -87,6 +87,59 @@ You can then use this info in your template.
 {{/if}}
 ```
 > Note: This example also uses the [metalsmith-permalinks](https://github.com/segmentio/metalsmith-permalinks) plug-in
+
+## Advanced usage
+
+It's made for extensibility by allowing you to pass a `options.iteratee` function which are called for *every* collection post.
+
+Example below illustrates this by displaying the `excerpt` of the top 10 posts per year, follow by posts only listed by its title.
+
+**Metalsmith setup**
+
+```js
+const Metalsmith  = require('metalsmith');
+const collections = require('metalsmith-collections');
+const pagination  = require('metalsmith-yearly-pagination');
+
+Metalsmith(__dirname)
+  .use(collections({
+    blog: {
+      pattern: 'content/blog/*.md',
+      sortBy: 'date',
+      reverse: true
+    }
+  }))
+  .use(pagination({
+    path: 'blog/page',
+    iteratee: (post, idx) => ({
+      post,
+      displayExcerpt: idx < 10,
+    })
+  }))
+  .use(templates('ENGINE-NAME'))
+  // ...
+  .build();
+```
+
+**Template**
+
+```handlebars
+{{#each collections.blog.posts}}
+  <li class="post">
+    <h2 class="entry-title">
+      <a href="{{ this.post.path }}" rel="bookmark">{{ this.post.title }}</a>
+    </h2>
+    {{#if this.displayExcerpt}}
+      <article class="entry-summary">
+        {{{ this.post.excerpt }}}
+      </article>
+    {{/if}}
+    <footer>
+      <a href="{{ this.post.path }}" class="button">Read More</a>
+    </footer>
+  </li>
+{{/each}}
+```
 
 # Contributing
 

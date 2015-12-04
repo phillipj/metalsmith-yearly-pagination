@@ -10,7 +10,11 @@ function asPaginatedItems (posts, summaryLimit) {
     }));
 }
 
-function paginate (filePath, collection, fileName, files, perPage) {
+function identity (input) {
+    return input;
+}
+
+function paginate (filePath, collection, fileName, files, iteratee) {
     const allPosts = collection.filter((colItem) => !!colItem.date);
     const origFile = files[fileName];
     const ext      = path.extname(fileName);
@@ -30,7 +34,7 @@ function paginate (filePath, collection, fileName, files, perPage) {
 
     origFile.pagination = {
         year: latestYear,
-        posts: asPaginatedItems(postsByYear[latestYear], perPage)
+        posts: postsByYear[latestYear].map(iteratee)
     };
 
     years.forEach((year, idx) => {
@@ -50,7 +54,7 @@ function paginate (filePath, collection, fileName, files, perPage) {
         last.pagination.next = clone;
         clone.pagination.year = year;
         clone.pagination.prev = last;
-        clone.pagination.posts = asPaginatedItems(posts, perPage);
+        clone.pagination.posts = posts.map(iteratee);
 
         files[cloneName] = clone;
 
@@ -59,8 +63,9 @@ function paginate (filePath, collection, fileName, files, perPage) {
 }
 
 module.exports = function pagination(opts) {
-    opts = opts || {};
-    const perPage = opts.perPage || 10;
+    const options = Object.assign({
+        iteratee: identity
+    }, opts);
 
     return function(files, metalsmith, done) {
         const metadata      = metalsmith.metadata();
@@ -70,13 +75,13 @@ module.exports = function pagination(opts) {
 
         for (file in files) {
             colName = files[file].paginate;
-            filePath = opts.path;
+            filePath = options.path;
             if (colName) {
                 if (filePath) {
                     filePath = filePath.replace(':collection', colName);
                 }
 
-                paginate(filePath, collections[colName], file, files, opts.perPage);
+                paginate(filePath, collections[colName], file, files, options.iteratee);
             }
         }
 
