@@ -45,7 +45,7 @@ Metalsmith(__dirname)
 | name | description |
 |:-----|:------------|
 |iteratee|Function called for each post (optional) |
-|path|The path were the files will be outputted to. Appended with "-$NUM.html" where $NUM is the page number. So "blog/page" would for example result in the second page being rendered as `blog/page-2.html`. You can also use the placeholder ':collection' to insert the name of the collection. (optional)|
+|path|The path were the files will be outputted to. Appended with "-$YEAR.html" where $YEAR is the year the posts has been grouped by. So "blog/page" would for example result in the second page being rendered as `blog/page-2015.html`, if there were any posts in 2015. You can also use the placeholder ':collection' to insert the name of the collection. (optional)|
 
 
 ## Templates
