@@ -4,9 +4,12 @@ const should   = require('should');
 
 const pagination = require('../');
 
-function oneYearAgo () {
-    const current = new Date();
-    return new Date(current.getFullYear() - 1, current.getMonth(), current.getDay());
+function dateIn2015 () {
+    return new Date(2015, 6, 1);
+}
+
+function dateIn2016 (argument) {
+    return new Date(2016, 6, 1);
 }
 
 describe('Yearly pagination', () => {
@@ -24,7 +27,7 @@ describe('Yearly pagination', () => {
 
         for (var i = 0; i < 10; i++) {
             const name = 'content/posts/post-' + i + '.md';
-            const date = (i < 5) ? new Date() : oneYearAgo();
+            const date = (i < 5) ? dateIn2016() : dateIn2015();
 
             files[name] = {
                 title: 'Post Number ' + i,
@@ -118,7 +121,7 @@ describe('Yearly pagination', () => {
         it('pagination.next references the next paginated page', (done) => {
             pagination()(files, metalsmith, () => {
                 const firstPage = files['blog.md'];
-                const secondPage = files['blog-2.md'];
+                const secondPage = files['blog-2015.md'];
 
                 firstPage.pagination.next.should.equal(secondPage);
                 done();
@@ -128,7 +131,7 @@ describe('Yearly pagination', () => {
         it('pagination.prev references the previous paginated page', (done) => {
             pagination()(files, metalsmith, () => {
                 const firstPage = files['blog.md'];
-                const secondPage = files['blog-2.md'];
+                const secondPage = files['blog-2015.md'];
 
                 secondPage.pagination.prev.should.equal(firstPage);
                 done();
@@ -146,7 +149,7 @@ describe('Yearly pagination', () => {
 
         it('pagination.next is not defined for the last page', (done) => {
             pagination()(files, metalsmith, () => {
-                const lastPage = files['blog-2.md'];
+                const lastPage = files['blog-2015.md'];
 
                 lastPage.pagination.should.not.have.property('next');
                 done();

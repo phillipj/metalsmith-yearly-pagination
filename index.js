@@ -36,7 +36,7 @@ function paginate (filePath, collection, fileName, files, iteratee) {
         }
 
         const posts = postsByYear[year];
-        const cloneName = baseName + '-' + (idx+1) + ext;
+        const cloneName = baseName + '-' + year + ext;
 
         clone = _.clone(origFile, true, (value) => {
             if (Buffer.isBuffer(value)) {
