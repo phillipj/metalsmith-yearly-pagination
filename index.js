@@ -3,13 +3,6 @@
 const _ = require('lodash');
 const path = require('path');
 
-function asPaginatedItems (posts, summaryLimit) {
-    return posts.map((post, idx) => ({
-        post,
-        displayAsSummary: idx < summaryLimit
-    }));
-}
-
 function identity (input) {
     return input;
 }
