@@ -38,7 +38,7 @@ function paginate (filePath, collection, fileName, files, iteratee) {
         const posts = postsByYear[year];
         const cloneName = baseName + '-' + year + ext;
 
-        clone = _.clone(origFile, true, (value) => {
+        clone = _.cloneDeepWith(origFile, (value) => {
             if (Buffer.isBuffer(value)) {
                 return value.slice();
             }
