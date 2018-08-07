@@ -19,7 +19,7 @@ describe('Yearly pagination', () => {
         files = {
             'blog.md': {
                 paginate: 'posts',
-                sidebar: new Buffer("I'm a sidebar content"),
+                sidebar: Buffer.from("I'm a sidebar content"),
             }
         };
 
