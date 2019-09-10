@@ -1,6 +1,6 @@
 # metalsmith-yearly-pagination
 
-[![Build Status](https://api.travis-ci.org/phillipj/metalsmith-yearly-pagination.png)](http://travis-ci.org/phillipj/metalsmith-yearly-pagination)
+[![Build Status](https://travis-ci.com/phillipj/metalsmith-yearly-pagination.svg?branch=master)](https://travis-ci.com/phillipj/metalsmith-yearly-pagination)
 
 This plug-in makes [metalsmith-collections](https://github.com/segmentio/metalsmith-collections) "paginatable". It does so by creating virtual files which contain the information about the collection as well as the previous and next page.
 
@@ -11,14 +11,15 @@ You **must** use this in conjunction with [metalsmith-collections](https://githu
 Firstly you must create a file that contains the information over which collection you want to paginate and the template name:
 
 `blog.md`
+
 ```markdown
 ---
 template: TEMPLATE-NAME.EXT
 paginate: posts
 ---
 ```
-> Note: if you give the page a title and use the [metalsmith-permalinks](https://github.com/segmentio/metalsmith-permalinks) plug-in you might get some weird result.
 
+Note: if you give the page a title and use the [metalsmith-permalinks](https://github.com/segmentio/metalsmith-permalinks) plug-in you might get some weird results.
 
 ```js
 const Metalsmith  = require('metalsmith');
@@ -42,11 +43,11 @@ Metalsmith(__dirname)
 ```
 
 ## Options
+
 | name | description |
 |:-----|:------------|
 |iteratee|Function called for each post (optional) |
 |path|The path were the files will be outputted to. Appended with "-$YEAR.html" where $YEAR is the year the posts has been grouped by. So "blog/page" would for example result in the second page being rendered as `blog/page-2015.html`, if there were any posts in 2015. You can also use the placeholder ':collection' to insert the name of the collection. (optional)|
-
 
 ## Templates
 
@@ -88,7 +89,8 @@ You can then use this info in your template.
   </nav>
 {{/if}}
 ```
-> Note: This example also uses the [metalsmith-permalinks](https://github.com/segmentio/metalsmith-permalinks) plug-in
+
+Note: This example also uses the [metalsmith-permalinks](https://github.com/segmentio/metalsmith-permalinks) plug-in.
 
 ## Advanced usage
 
@@ -143,7 +145,7 @@ Metalsmith(__dirname)
 {{/each}}
 ```
 
-# Contributing
+## Contributing
 
 This is an **OPEN Open Source Project**. This means that:
 
