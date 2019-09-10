@@ -16,7 +16,7 @@
     "year"
   ],
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=6"
   },
   "author": "Phillip Johnsen <johphi@gmail.com>",
   "license": "MIT",
