@@ -21,10 +21,10 @@
   "author": "Phillip Johnsen <johphi@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "mocha": "^2.3.4",
-    "should": "^7.1.1"
+    "mocha": "^6.2.0",
+    "should": "^13.2.3"
   },
   "dependencies": {
-    "lodash": "^4.17.10"
+    "lodash": "^4.17.15"
   }
 }
