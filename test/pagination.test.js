@@ -1,36 +1,37 @@
 'use strict';
 
-const should   = require('should');
+const should = require('should');
+const pagination = require('..');
 
-const pagination = require('../');
-
-function dateIn2015 () {
-    return new Date(2015, 6, 1);
-}
-
-function dateIn2016 (argument) {
-    return new Date(2016, 6, 1);
+function getDate(year) {
+    return new Date(year, 6, 1);
 }
 
 describe('Yearly pagination', () => {
-    var metalsmith, metadata, files;
+    let metalsmith;
+    let metadata;
+    let files;
 
     beforeEach((done) => {
         files = {
             'blog.md': {
                 paginate: 'posts',
-                sidebar: Buffer.from("I'm a sidebar content"),
+                sidebar: Buffer.from('I\'m a sidebar content')
             }
         };
 
-        metadata = {collections: {posts: []}};
+        metadata = {
+            collections: {
+                posts: []
+            }
+        };
 
-        for (var i = 0; i < 10; i++) {
-            const name = 'content/posts/post-' + i + '.md';
-            const date = (i < 5) ? dateIn2016() : dateIn2015();
+        for (let i = 0; i < 10; i++) {
+            const name = `content/posts/post-${i}.md`;
+            const date = (i < 5) ? getDate(2016) : getDate(2015);
 
             files[name] = {
-                title: 'Post Number ' + i,
+                title: `Post Number ${i}`,
                 collection: 'posts',
                 date
             };
@@ -46,21 +47,22 @@ describe('Yearly pagination', () => {
     });
 
     describe('pages', () => {
-
         it('paginates a collection based on year of the "date" field', (done) => {
             pagination()(files, metalsmith, () => {
-                var cPages = 0;
-                for (var file in files) {
+                let cPages = 0;
+
+                for (const file in files) {
                     if (/(blog)/.test(file)) {
                         cPages++;
                     }
                 }
+
                 cPages.should.equal(2);
                 done();
             });
         });
 
-        it('doesnt create additional pages when collection doesnt contain posts with a "date" field', (done) => {
+        it('doesn\'t create additional pages when collection doesn\'t contain posts with a "date" field', (done) => {
             metadata.collections.posts.forEach((post) => {
                 delete post.date;
                 return post;
@@ -68,56 +70,53 @@ describe('Yearly pagination', () => {
 
             pagination()(files, metalsmith, () => {
                 let cPages = 0;
-                for (var file in files) {
+
+                for (const file in files) {
                     if (/(blog)/.test(file)) {
                         cPages++;
                     }
                 }
+
                 // still expect the blog.md to exist
                 cPages.should.equal(1);
                 done();
             });
         });
 
-
-
         it('has configurable path to paginated pages', (done) => {
-            pagination({
-                path: ':collection/page'
-            })(files, metalsmith, () => {
-                var cPages = 0;
-                for (var file in files) {
-                    if (/(posts\/page-[0-9]+)/.test(file)) {
+            pagination({path: ':collection/page'})(files, metalsmith, () => {
+                let cPages = 0;
+
+                for (const file in files) {
+                    if (/(posts\/page-\d+)/.test(file)) {
                         cPages++;
                     }
                 }
+
                 cPages.should.equal(1);
                 done();
             });
         });
 
         it('takes care of Buffer properties while creating the virtual file for pagination', (done) => {
-            pagination({
-                path: ':collection/page'
-            })(files, metalsmith, () => {
-                var fileObj;
+            pagination({path: ':collection/page'})(files, metalsmith, () => {
+                let fileObj;
 
-                for (var file in files) {
-                    if (/(posts\/page-[0-9]+)/.test(file)) {
+                for (const file in files) {
+                    if (/(posts\/page-\d+)/.test(file)) {
                         fileObj = files[file];
                         should(fileObj).have.property('sidebar');
                         should(fileObj.sidebar).not.equal(files['blog.md'].sidebar);
-                        should(Buffer.isBuffer(fileObj.sidebar)).ok;
+                        should(Buffer.isBuffer(fileObj.sidebar)).be.ok();
                     }
                 }
+
                 done();
             });
         });
-
     });
 
     describe('navigation', () => {
-
         it('pagination.next references the next paginated page', (done) => {
             pagination()(files, metalsmith, () => {
                 const firstPage = files['blog.md'];
@@ -158,18 +157,15 @@ describe('Yearly pagination', () => {
     });
 
     describe('iteratee function', () => {
-
         it('is given each collection item', (done) => {
-            let iterateeCalledWith = [];
+            const iterateeCalledWith = [];
 
             const iterateeFn = (post) => {
                 iterateeCalledWith.push(post);
             };
 
-            pagination({
-                iteratee: iterateeFn
-            })(files, metalsmith, () => {
-                iterateeCalledWith.should.not.empty();
+            pagination({iteratee: iterateeFn})(files, metalsmith, () => {
+                iterateeCalledWith.should.not.be.empty();
 
                 iterateeCalledWith.forEach((post, idx) => {
                     post.title.should.equal(`Post Number ${idx}`);
@@ -179,7 +175,7 @@ describe('Yearly pagination', () => {
             });
         });
 
-        it('return value are used as the pagination.posts values', (done) => {
+        it('return values are used as the pagination.posts values', (done) => {
             const iterateeFn = (post, idx) => {
                 return Object.assign({
                     idx,
@@ -187,17 +183,14 @@ describe('Yearly pagination', () => {
                 });
             };
 
-            pagination({
-                iteratee: iterateeFn
-            })(files, metalsmith, () => {
-                files['blog.md'].pagination.posts.forEach((post) => {
+            pagination({iteratee: iterateeFn})(files, metalsmith, () => {
+                files['blog.md'].pagination.posts.forEach(post => {
                     post.should.have.property('idx');
                     post.should.have.property('post');
                 });
 
                 done();
             });
-
         });
     });
 });
