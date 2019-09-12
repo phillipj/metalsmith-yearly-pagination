@@ -1,21 +1,22 @@
 'use strict';
 
-const _ = require('lodash');
 const path = require('path');
+const groupBy = require('lodash/groupBy');
+const cloneDeepWith = require('lodash/cloneDeepWith');
 
 function identity (input) {
     return input;
 }
 
 function paginate (filePath, collection, fileName, files, iteratee) {
-    const allPosts = collection.filter((colItem) => !!colItem.date);
+    const allPosts = collection.filter((colItem) => Boolean(colItem.date));
     const origFile = files[fileName];
     const ext      = path.extname(fileName);
     const baseName = filePath || fileName.substr(0, fileName.lastIndexOf(ext));
 
-    const postsByYear   = _.groupBy(allPosts, (post) => new Date(post.date).getFullYear());
-    const years         = Object.keys(postsByYear).sort().reverse();
-    const latestYear    = years[0];
+    const postsByYear = groupBy(allPosts, (post) => new Date(post.date).getFullYear());
+    const years       = Object.keys(postsByYear).sort().reverse();
+    const latestYear  = years[0];
 
     let last = origFile;
     let clone;
@@ -36,9 +37,9 @@ function paginate (filePath, collection, fileName, files, iteratee) {
         }
 
         const posts = postsByYear[year];
-        const cloneName = baseName + '-' + year + ext;
+        const cloneName = `${baseName}-${year}${ext}`;
 
-        clone = _.cloneDeepWith(origFile, (value) => {
+        clone = cloneDeepWith(origFile, (value) => {
             if (Buffer.isBuffer(value)) {
                 return value.slice();
             }
@@ -55,29 +56,34 @@ function paginate (filePath, collection, fileName, files, iteratee) {
     });
 }
 
-module.exports = function pagination(opts) {
+module.exports = function(opts) {
     const options = Object.assign({
         iteratee: identity
     }, opts);
 
-    return function(files, metalsmith, done) {
+    return (files, metalsmith, done) => {
         const metadata      = metalsmith.metadata();
-        const collections   = metadata.collections;
+        const {collections} = metadata;
 
-        let colName, file, filePath;
+        let colName;
+        let file;
+        let filePath;
 
         for (file in files) {
-            colName = files[file].paginate;
-            filePath = options.path;
-            if (colName) {
-                if (filePath) {
-                    filePath = filePath.replace(':collection', colName);
-                }
+            if (Object.prototype.hasOwnProperty.call(files, file)) {
+                colName = files[file].paginate;
+                filePath = options.path;
 
-                paginate(filePath, collections[colName], file, files, options.iteratee);
+                if (colName) {
+                    if (filePath) {
+                        filePath = filePath.replace(':collection', colName);
+                    }
+
+                    paginate(filePath, collections[colName], file, files, options.iteratee);
+                }
             }
         }
 
         done();
-    }
+    };
 };
