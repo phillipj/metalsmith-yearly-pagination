@@ -4,7 +4,9 @@
   "description": "A plugin that uses metalsmith-collections to create a collection paginated by year",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "lint": "eslint .",
+    "mocha": "mocha",
+    "test": "npm run lint && npm run mocha"
   },
   "homepage": "https://github.com/phillipj/metalsmith-yearly-pagination",
   "bugs": {
@@ -21,11 +23,12 @@
     "year"
   ],
   "engines": {
-    "node": ">=6"
+    "node": ">=8"
   },
   "author": "Phillip Johnsen <johphi@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "eslint": "^6.4.0",
     "mocha": "^6.2.0",
     "should": "^13.2.3"
   },
