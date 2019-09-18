@@ -30,7 +30,15 @@ describe('Yearly pagination', () => {
 
         for (let i = 0; i < 10; i++) {
             const name = `content/posts/post-${i}.md`;
-            const date = (i < 5) ? getDate(2016) : getDate(2015);
+            let date;
+
+            if (i <= 3) {
+                date = getDate(2016);
+            } else if (i > 3 && i <= 6) {
+                date = getDate(2015);
+            } else {
+                date = getDate(2014);
+            }
 
             files[name] = {
                 title: `Post Number ${i}`,
@@ -59,7 +67,7 @@ describe('Yearly pagination', () => {
                     }
                 }
 
-                cPages.should.equal(2);
+                cPages.should.equal(3);
                 done();
             });
         });
@@ -95,7 +103,7 @@ describe('Yearly pagination', () => {
                     }
                 }
 
-                cPages.should.equal(1);
+                cPages.should.equal(2);
                 done();
             });
         });
@@ -123,8 +131,10 @@ describe('Yearly pagination', () => {
             pagination()(files, metalsmith, () => {
                 const firstPage = files['blog.md'];
                 const secondPage = files['blog-2015.md'];
+                const thirdPage = files['blog-2014.md'];
 
                 firstPage.pagination.next.should.equal(secondPage);
+                secondPage.pagination.next.should.equal(thirdPage);
                 done();
             });
         });
@@ -133,8 +143,10 @@ describe('Yearly pagination', () => {
             pagination()(files, metalsmith, () => {
                 const firstPage = files['blog.md'];
                 const secondPage = files['blog-2015.md'];
+                const thirdPage = files['blog-2014.md'];
 
                 secondPage.pagination.prev.should.equal(firstPage);
+                thirdPage.pagination.prev.should.equal(secondPage);
                 done();
             });
         });
@@ -150,7 +162,7 @@ describe('Yearly pagination', () => {
 
         it('pagination.next is not defined for the last page', (done) => {
             pagination()(files, metalsmith, () => {
-                const lastPage = files['blog-2015.md'];
+                const lastPage = files['blog-2014.md'];
 
                 lastPage.pagination.should.not.have.property('next');
                 done();
