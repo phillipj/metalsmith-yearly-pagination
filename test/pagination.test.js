@@ -178,15 +178,10 @@ describe('Yearly pagination', () => {
         });
 
         it('return values are used as the pagination.posts values', (done) => {
-            const iterateeFn = (post, idx) => {
-                return Object.assign({
-                    idx,
-                    post
-                });
-            };
+            const iterateeFn = (post, idx) => ({idx, post});
 
             pagination({iteratee: iterateeFn})(files, metalsmith, () => {
-                files['blog.md'].pagination.posts.forEach(post => {
+                files['blog.md'].pagination.posts.forEach((post) => {
                     post.should.have.property('idx');
                     post.should.have.property('post');
                 });

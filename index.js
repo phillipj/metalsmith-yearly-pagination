@@ -57,9 +57,7 @@ function paginate (filePath, collection, fileName, files, iteratee) {
 }
 
 module.exports = function(opts) {
-    const options = Object.assign({
-        iteratee: identity
-    }, opts);
+    const options = {iteratee: identity, ...opts};
 
     return (files, metalsmith, done) => {
         const metadata      = metalsmith.metadata();
