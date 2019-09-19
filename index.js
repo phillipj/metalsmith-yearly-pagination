@@ -12,7 +12,7 @@ function paginate (filePath, collection, fileName, files, iteratee) {
     const allPosts = collection.filter((colItem) => Boolean(colItem.date));
     const origFile = files[fileName];
     const ext      = path.extname(fileName);
-    const baseName = filePath || fileName.substr(0, fileName.lastIndexOf(ext));
+    const baseName = filePath || path.basename(fileName, ext);
 
     const postsByYear = groupBy(allPosts, (post) => new Date(post.date).getFullYear());
     const years       = Object.keys(postsByYear).sort().reverse();
