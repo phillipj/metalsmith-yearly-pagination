@@ -63,22 +63,16 @@ module.exports = function(opts) {
         const metadata      = metalsmith.metadata();
         const {collections} = metadata;
 
-        let colName;
-        let file;
-        let filePath;
+        for (const file of Object.keys(files)) {
+            const colName = files[file].paginate;
+            let filePath = options.path;
 
-        for (file in files) {
-            if (Object.prototype.hasOwnProperty.call(files, file)) {
-                colName = files[file].paginate;
-                filePath = options.path;
-
-                if (colName) {
-                    if (filePath) {
-                        filePath = filePath.replace(':collection', colName);
-                    }
-
-                    paginate(filePath, collections[colName], file, files, options.iteratee);
+            if (colName) {
+                if (filePath) {
+                    filePath = filePath.replace(':collection', colName);
                 }
+
+                paginate(filePath, collections[colName], file, files, options.iteratee);
             }
         }
 
