@@ -1,6 +1,6 @@
 # metalsmith-yearly-pagination
 
-![Build Status](https://action-badges.now.sh/phillipj/metalsmith-yearly-pagination)
+![Build Status](https://github.com/phillipj/metalsmith-yearly-pagination/workflows/Tests/badge.svg)
 
 This plug-in makes [metalsmith-collections](https://github.com/segmentio/metalsmith-collections) "paginatable". It does so by creating virtual files which contain the information about the collection as well as the previous and next page.
 
