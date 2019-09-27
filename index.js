@@ -45,9 +45,11 @@ function paginate (filePath, collection, fileName, files, iteratee) {
         });
 
         last.pagination.next = clone;
-        clone.pagination.year = year;
-        clone.pagination.prev = last;
-        clone.pagination.posts = posts.map(iteratee);
+        clone.pagination = {
+            year,
+            prev: last,
+            posts: posts.map(iteratee)
+        }
 
         files[cloneName] = clone;
 
