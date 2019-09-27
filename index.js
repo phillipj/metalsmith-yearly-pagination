@@ -19,7 +19,6 @@ function paginate (filePath, collection, fileName, files, iteratee) {
     const latestYear  = years[0];
 
     let last = origFile;
-    let clone;
 
     // no posts had date field :(
     if (!years.length) {
@@ -39,7 +38,7 @@ function paginate (filePath, collection, fileName, files, iteratee) {
         const posts = postsByYear[year];
         const cloneName = `${baseName}-${year}${ext}`;
 
-        clone = cloneDeepWith(origFile, (value) => {
+        const clone = cloneDeepWith(origFile, (value) => {
             if (Buffer.isBuffer(value)) {
                 return value.slice();
             }
@@ -60,18 +59,13 @@ module.exports = function(opts) {
     const options = {iteratee: identity, ...opts};
 
     return (files, metalsmith, done) => {
-        const metadata      = metalsmith.metadata();
-        const {collections} = metadata;
+        const {collections} = metalsmith.metadata();
 
         for (const file of Object.keys(files)) {
             const colName = files[file].paginate;
-            let filePath = options.path;
+            const filePath = options.path ? options.path.replace(':collection', colName) : '';
 
             if (colName) {
-                if (filePath) {
-                    filePath = filePath.replace(':collection', colName);
-                }
-
                 paginate(filePath, collections[colName], file, files, options.iteratee);
             }
         }
