@@ -18,7 +18,7 @@ function paginate (filePath, collection, fileName, files, iteratee) {
     const years       = Object.keys(postsByYear).sort().reverse();
     const latestYear  = years[0];
 
-    let last = origFile;
+    let lastYear = origFile;
 
     // no posts had date field :(
     if (!years.length) {
@@ -38,22 +38,22 @@ function paginate (filePath, collection, fileName, files, iteratee) {
         const posts = postsByYear[year];
         const cloneName = `${baseName}-${year}${ext}`;
 
-        const clone = cloneDeepWith(origFile, (value) => {
+        const currentYear = cloneDeepWith(origFile, (value) => {
             if (Buffer.isBuffer(value)) {
                 return value.slice();
             }
         });
 
-        last.pagination.next = clone;
-        clone.pagination = {
+        lastYear.pagination.next = currentYear;
+        currentYear.pagination = {
             year,
-            prev: last,
+            prev: lastYear,
             posts: posts.map(iteratee)
         }
 
-        files[cloneName] = clone;
+        files[cloneName] = currentYear;
 
-        last = clone;
+        lastYear = currentYear;
     });
 }
 
