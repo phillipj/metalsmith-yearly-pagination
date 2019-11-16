@@ -1,8 +1,8 @@
 'use strict';
 
 const path = require('path');
-const groupBy = require('lodash/groupBy');
-const cloneDeepWith = require('lodash/cloneDeepWith');
+const groupBy = require('lodash.groupby');
+const cloneDeepWith = require('lodash.clonedeepwith');
 
 function identity (input) {
     return input;

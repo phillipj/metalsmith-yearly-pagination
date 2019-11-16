@@ -27,13 +27,14 @@
   },
   "author": "Phillip Johnsen <johphi@gmail.com>",
   "license": "MIT",
+  "dependencies": {
+    "lodash.clonedeepwith": "^4.5.0",
+    "lodash.groupby": "^4.6.0"
+  },
   "devDependencies": {
     "eslint": "^6.6.0",
     "mocha": "^6.2.2",
     "should": "^13.2.3"
-  },
-  "dependencies": {
-    "lodash": "^4.17.15"
   },
   "files": [
     "index.js"
