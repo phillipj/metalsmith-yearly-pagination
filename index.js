@@ -57,7 +57,7 @@ function paginate (filePath, collection, fileName, files, iteratee) {
     });
 }
 
-module.exports = function(opts) {
+module.exports = (opts) => {
     const options = {iteratee: identity, ...opts};
 
     return (files, metalsmith, done) => {
