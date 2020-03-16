@@ -49,7 +49,7 @@ function paginate (filePath, collection, fileName, files, iteratee) {
             year,
             prev: lastYear,
             posts: posts.map(iteratee)
-        }
+        };
 
         files[cloneName] = currentYear;
 
