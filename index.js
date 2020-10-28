@@ -9,36 +9,36 @@ function identity (input) {
 }
 
 function paginate (filePath, collection, fileName, files, iteratee) {
-    const allPosts = collection.filter((colItem) => Boolean(colItem.date));
-    const origFile = files[fileName];
-    const ext      = path.extname(fileName);
-    const baseName = filePath || path.basename(fileName, ext);
+    const allPosts     = collection.filter((colItem) => Boolean(colItem.date));
+    const originalFile = files[fileName];
+    const extension    = path.extname(fileName);
+    const baseName     = filePath || path.basename(fileName, extension);
 
     const postsByYear = groupBy(allPosts, (post) => new Date(post.date).getFullYear());
     const years       = Object.keys(postsByYear).sort().reverse();
     const latestYear  = years[0];
 
-    let lastYear = origFile;
+    let lastYear = originalFile;
 
     // no posts had date field :(
-    if (!years.length) {
+    if (years.length === 0) {
         return;
     }
 
-    origFile.pagination = {
+    originalFile.pagination = {
         year: latestYear,
-        posts: postsByYear[latestYear].map(iteratee)
+        posts: postsByYear[latestYear].map((post) => iteratee(post))
     };
 
-    years.forEach((year, idx) => {
-        if (idx === 0) {
+    years.forEach((year, index) => {
+        if (index === 0) {
             return;
         }
 
         const posts = postsByYear[year];
-        const cloneName = `${baseName}-${year}${ext}`;
+        const cloneName = `${baseName}-${year}${extension}`;
 
-        const currentYear = cloneDeepWith(origFile, (value) => {
+        const currentYear = cloneDeepWith(originalFile, (value) => {
             if (Buffer.isBuffer(value)) {
                 return value.slice();
             }
@@ -48,7 +48,7 @@ function paginate (filePath, collection, fileName, files, iteratee) {
         currentYear.pagination = {
             year,
             prev: lastYear,
-            posts: posts.map(iteratee)
+            posts: posts.map((post) => iteratee(post))
         };
 
         files[cloneName] = currentYear;
