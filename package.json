@@ -23,7 +23,7 @@
     "year"
   ],
   "engines": {
-    "node": ">=8"
+    "node": ">=10"
   },
   "author": "Phillip Johnsen <johphi@gmail.com>",
   "license": "MIT",
@@ -32,8 +32,8 @@
     "lodash.groupby": "^4.6.0"
   },
   "devDependencies": {
-    "eslint": "^6.8.0",
-    "mocha": "^7.1.1",
+    "eslint": "^7.12.1",
+    "mocha": "^8.2.0",
     "should": "^13.2.3"
   },
   "files": [
