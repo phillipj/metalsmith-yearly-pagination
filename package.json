@@ -32,8 +32,8 @@
     "lodash.groupby": "^4.6.0"
   },
   "devDependencies": {
-    "eslint": "^7.12.1",
-    "mocha": "^8.2.0",
+    "eslint": "^7.18.0",
+    "mocha": "^8.2.1",
     "should": "^13.2.3"
   },
   "files": [
